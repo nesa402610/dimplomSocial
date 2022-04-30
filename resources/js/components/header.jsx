@@ -11,7 +11,7 @@ const Header = () => {
         <header className={''}>
             <nav className={'bg-gray-700'}>
                 <div className={'xs:px-4 md:px-6 lg:px-8 flex flex-1 items-center justify-between h-12'}>
-                    <div className={'flex text-gray-200'}>
+                    <div className={'flex text-slate-200'}>
                         <div className={'hidden sm:flex'}>
                             <Link to={'/'}>Главная</Link>
                             <Link to={'friends'}>Друзья</Link>
@@ -21,14 +21,14 @@ const Header = () => {
                     </div>
                     <div>
                         <div onClick={dropDown}
-                             className={'relative text-white'}
+                             className={'relative text-slate-200'}
                         >
                             Profile
                         </div>
                     </div>
                 </div>
                 {isDropDown ?
-                    (<div className={'sm:hidden flex flex-col bg-gray-700 border-t-black border-t-2'}>
+                    (<div className={'sm:hidden text-slate-200 flex flex-col bg-gray-700 border-t-black border-t-2'}>
                         <Link to={'/'}>Главная</Link>
                         <Link to={'friends'}>Друзья</Link>
                         <Link to={'messages'}>Сообщения</Link>
