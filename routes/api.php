@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\authController;
+use App\Http\Controllers\messageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/dialogues', [messageController::class, 'getDialogues']);
+    Route::post('/messages', [messageController::class, 'getMessages']);
+    Route::post('/sendMessages', [messageController::class, 'sendMessage']);
+    Route::post('/loginCheck', [authController::class, 'loginCheck']);
 });
+
+Route::post('/creac', [authController::class, 'createAccount']);
+Route::post('/auth', [authController::class, 'login']);
