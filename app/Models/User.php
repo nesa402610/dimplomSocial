@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use http\Message;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\messages;
 
 class User extends Authenticatable
 {
@@ -19,8 +21,13 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'lastname',
         'email',
         'password',
+        'phone',
+        'birthday',
+        'status',
+        'gender',
     ];
 
     /**
@@ -40,5 +47,12 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'phone_verified_at' => 'datetime',
     ];
+
+    public function messages()
+    {
+        return $this->hasMany(messages::class);
+    }
+
 }
