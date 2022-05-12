@@ -3,6 +3,7 @@ import img from '../components/placeholder/profile.png';
 import {useSelector} from "react-redux";
 import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
+import {Helmet} from "react-helmet";
 
 const Profile = () => {
     const [user, setUser] = useState({});
@@ -13,22 +14,42 @@ const Profile = () => {
 
 
     let userID = useParams();
-    useEffect( () => {
+    useEffect(() => {
         if (authUser.id == userID.id) {
             setUser(authUser);
-            console.log(1);
         } else {
             axios.post(`/id${userID.id}`)
                 .then(r => {
                     setUser(r.data.user);
-                });
+                    if (!r.data.user) {
+                        navigate('/id' + authUser?.id);
+                        // location.pathname = '/id' + authUser?.id
+                    }
+                }).catch(err => {
+
+            });
         }
     }, [userID]);
 
-    const statusHandler = (e) => {
-        setChange(true);
-        setStatus(user.status);
+    const addFriend = async () => {
+        await axios.post('/action/addToFriends', {friend_id: user.id});
+    };
 
+    const statusHandler = (e) => {
+        if (authUser.id === user.id) {
+            setChange(true);
+            setStatus(user.status);
+        }
+
+    };
+    const updatePhoto = (e) => {
+        // setPhoto(e.target.files[0])
+        const data = new FormData();
+        data.append('photo', e.target.files[0]);
+        axios.post('/profile/update/photo', data)
+            .then(r => {
+                setUser({...user, photo: r.data.photo});
+            });
     };
     const keyPressHandle = (e) => {
         if (e.key === 'Enter') {
@@ -47,9 +68,18 @@ const Profile = () => {
     };
     return (
         <div className={'px-4 py-2 mt-2 flex flex-col gap-4'}>
+            <Helmet>
+                <title>
+                    {`Профиль пользователя ${user?.name} ${user?.lastname}`}
+                </title>
+            </Helmet>
             <div className={'flex gap-4 '}>
-                <div className={'rounded-full w-20 overflow-hidden'}>
-                    <img className={'rounded-full'} src={img} alt=""/>
+                <div className={'rounded-full w-20 h-20 overflow-hidden'}
+                >
+                    <label>
+                    <img className={'rounded-full'} src={user.photo ? user.photo : img} alt=""/>
+                        <input type="file" hidden onChange={updatePhoto}/>
+                    </label>
                 </div>
                 <div className={'text-slate-200 flex items-center'}>
                     <div className={'flex flex-col'}>
@@ -59,12 +89,12 @@ const Profile = () => {
                         </div>
                         <div className={'flex'}>
                             {!isChanging ?
-                                <div className={'hover:bg-slate-600 px-2 py-1'}
+                                <div className={'hover:bg-slate-600 px-2 py-1 '}
                                      onClick={e => statusHandler(e)}
                                 >{user.status ? user.status : 'Set status'}</div>
                                 :
                                 <div>
-                                    <input className={'bg-slate-700 px-2 rounded-md'}
+                                    <input className={'bg-slate-700 px-2 py-1 rounded-md'}
                                            type="text" value={status}
                                            onKeyPress={e => keyPressHandle(e)}
                                            onChange={e => setStatus(e.target.value)}
@@ -78,19 +108,22 @@ const Profile = () => {
                     </div>
                 </div>
             </div>
-            <div className={'flex gap-4 text-slate-200 justify-between text-center'}>
-                <div className={'bg-slate-700 w-full py-3 rounded-md'}>
-                    Add friend
-                </div>
-                <div className={'bg-slate-700 w-full py-3 rounded-md'}
-                onClick={startDialogue}
+            <div className={'flex gap-4 text-slate-200 justify-between text-center cursor-pointer'}>
+                {authUser.id === user.id ? '' :
+                    <div className={'bg-slate-700 w-full py-3 rounded-md'}
+                         onClick={addFriend}
+                    >
+                        Add friend
+                    </div>}
+                <div className={'bg-slate-700 w-full py-3 rounded-md cursor-pointer'}
+                     onClick={startDialogue}
                 >
                     Send msg
                 </div>
             </div>
             <div className={'flex flex-col text-slate-400'}>
                 <div>
-                    День рождения: date.axisos
+                    {user?.birthday ? `День рождения: ` + user?.birthday : ''}
                 </div>
                 <div>
                     Посмотреть всю информацию
