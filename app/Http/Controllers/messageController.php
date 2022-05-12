@@ -46,8 +46,10 @@ class messageController extends Controller
 
     public function startDialogue(Request $request)
     {
-        $dialogue = dialoges::firstornew(['dialogue_user_id' => Auth::user()->id, 'dialogue_acceptor_id' => $request->userID]);
-        $dialogue->save();
+        $dialogueFrom = dialoges::firstornew(['dialogue_user_id' => Auth::user()->id, 'dialogue_acceptor_id' => $request->userID]);
+        $dialogueTo = dialoges::firstornew(['dialogue_user_id' => $request->userID, 'dialogue_acceptor_id' => Auth::user()->id]);
+        $dialogueFrom->save();
+        $dialogueTo->save();
 
     }
 }
