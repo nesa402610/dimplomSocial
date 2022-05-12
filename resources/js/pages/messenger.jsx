@@ -28,8 +28,13 @@ const Messenger = () => {
     };
     const selectDialogue = (e) => {
         setActiveDialogue(e.currentTarget.dataset.peer);
+        navState.state = e.currentTarget.dataset.peer;
         // localStorage.setItem('Dialogue', JSON.stringify(e.currentTarget.dataset.peer));
     };
+
+    useEffect(() => {
+        setActiveDialogue(navState.state);
+    }, []);
 
     useEffect(() => {
         axios.post('/dialogues')
@@ -78,7 +83,7 @@ const Messenger = () => {
                         {
                             (dialogues) ?
                                 dialogues.map((dialogue) =>
-                                    <div className="flex-1 p-2 hover:bg-slate-600"
+                                    <div className={'flex-1 p-2 hover:bg-slate-600'}
                                          data-peer={dialogue.dialogue_acceptor_id}
                                          key={dialogue.id}
                                          onClick={e => selectDialogue(e)}
@@ -119,11 +124,11 @@ const Messenger = () => {
                                             </div>
                                         </div>
                                         <div className="msg-info">
-                                            <div className="msg-info-top">
-                                                <div className="msg-name">
+                                            <div className="flex gap-2 items-baseline">
+                                                <div className="font-bold">
                                                     <span>{msg.user.name}</span>
                                                 </div>
-                                                <div className="msg-time">
+                                                <div className="font-thin text-sm text-slate-200">
                                                     <span>{moment(msg.created_at).format("HH:mm")}</span>
                                                 </div>
                                             </div>
@@ -136,21 +141,22 @@ const Messenger = () => {
                                 : <span>Нет сообщений</span>
                         }
                     </div>
-                    <div className={'flex items-end'}>
-                        <div className={'w-full'}>
-                            <input type="text"
-                                   className={'w-full'}
-                                   name={'message'}
-                                   placeholder={'Write a message'}
-                                   value={message}
-                                   autoComplete={'disable'}
-                                   onChange={event => setMessage(event.target.value)}
-                            />
-                        </div>
-                        <div className="send-btn">
-                            <button onClick={sendMessage}>Send</button>
-                        </div>
-                    </div>
+                    {activeDialogue ?
+                        <div className={'flex items-end'}>
+                            <div className={'w-full'}>
+                                <input type="text"
+                                       className={'w-full'}
+                                       name={'message'}
+                                       placeholder={'Write a message'}
+                                       value={message}
+                                       autoComplete={'disable'}
+                                       onChange={event => setMessage(event.target.value)}
+                                />
+                            </div>
+                            <div className="send-btn">
+                                <button onClick={sendMessage}>Send</button>
+                            </div>
+                        </div> : ''}
                 </div>
             </div>
         </div>
