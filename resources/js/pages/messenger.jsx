@@ -32,9 +32,9 @@ const Messenger = () => {
         // localStorage.setItem('Dialogue', JSON.stringify(e.currentTarget.dataset.peer));
     };
 
-    useEffect(() => {
-        setActiveDialogue(navState.state);
-    }, []);
+    // useEffect(() => {
+    //     setActiveDialogue(navState.state);
+    // }, []);
 
     useEffect(() => {
         axios.post('/dialogues')
@@ -43,11 +43,10 @@ const Messenger = () => {
                 setDialogues(r.data);
             })
             .catch(error => {
-                if (error) {
-                    localStorage.removeItem('isAuth');
-                    dispatch({type: 'LOG_OUT', payload: false});
-                    console.log(error);
-                }
+                localStorage.removeItem('isAuth');
+                dispatch({type: 'LOG_OUT', payload: false});
+                console.log(error);
+                if (error.status === 401) location.href = '/linkin';
             });
         // return () => {
         //     setDialogues('');
@@ -70,6 +69,22 @@ const Messenger = () => {
             });
     }, [activeDialogue]);
 
+    useEffect(() => {
+        const tim = setInterval(() => {
+            if (activeDialogue !== 0) {
+                axios.post('/messages', {acceptor_id: activeDialogue})
+                    .then(r => {
+                        setMsgs(r.data);
+                    });
+            }
+        }, 3000);
+
+        return function clear() {
+            clearInterval(tim);
+        };
+    }, [activeDialogue]);
+
+
     return (
         <div className={'text-slate-200 px-4 mt-4'}>
             <div className={'flex gap-2'}>
@@ -83,20 +98,20 @@ const Messenger = () => {
                         {
                             (dialogues) ?
                                 dialogues.map((dialogue) =>
-                                    <div className={'flex-1 p-2 hover:bg-slate-600'}
+                                    <div className={'flex flex-1 gap-4 p-2 hover:bg-slate-600'}
                                          data-peer={dialogue.dialogue_acceptor_id}
                                          key={dialogue.id}
                                          onClick={e => selectDialogue(e)}
                                     >
-                                        <div className="dialogue-image"
+                                        <div className="dialogue-image h-10 w-10 rounded-full bg-center bg-contain"
                                              style={{backgroundImage: 'url(' + dialogue.acceptor.photo + ')'}}>
                                         </div>
                                         <div className="dialogue-info">
                                             <div className="top-info flex justify-between">
                                                 <div className="dialogue-name">
-                                                    <span>{dialogue.acceptor.name} </span>
-                                                    <span>{dialogue.acceptor.lastname}</span>
+                                                    <span>{dialogue.acceptor.name}&nbsp;{dialogue.acceptor.lastname} </span>
                                                 </div>
+                                                &nbsp;
                                                 <div className="last-msg-time">
                                                     11:22 PM
                                                 </div>
@@ -111,16 +126,15 @@ const Messenger = () => {
                         }
                     </div>
                 </div>
-                <div className={'flex flex-grow flex-col bg-slate-700 rounded-md p-2'}>
-                    <div className={'flex flex-1 flex-col'}>
+                <div className={'flex flex-grow flex-col bg-slate-700 rounded-md p-2 h-screen'}>
+                    <div className={'flex flex-1 flex-col gap-2 overflow-auto'}>
                         {
                             (msgs.length > 0) ?
                                 msgs.map((msg) =>
-                                    <div className="msg-view" key={msg.id}>
+                                    <div className="msg-view flex gap-4" key={msg.id}>
                                         <div className="msg-avatar">
-                                            <div className="msg-avatar__avatar"
+                                            <div className="msg-avatar__avatar h-10 w-10 rounded-full bg-center bg-contain"
                                                  style={{backgroundImage: 'url(' + msg.user.photo + ')'}}>
-
                                             </div>
                                         </div>
                                         <div className="msg-info">
