@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class friend extends Model
-{
+class friend extends Model {
     use HasFactory;
 
-    public function friends()
-    {
+    protected $fillable = ['user_id'];
+
+    public function friends() {
         return $this->belongsToMany(User::class);
     }
 
