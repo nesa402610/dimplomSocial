@@ -9,6 +9,8 @@ import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import {getUserAction, loginAction} from "./store/authReducer";
 import Messenger from "./pages/messenger";
+import Home from "./pages/home";
+import Search from "./pages/search";
 
 const Index = () => {
     const dispatch = useDispatch();
@@ -32,10 +34,12 @@ const Index = () => {
             <Header/>
             <main>
                 <Routes>
+                    <Route path={'/'} element={<Home/>}/>
                     <Route exact path={'/id:id'} element={<Profile/>}/>
                     <Route path={'/messenger'} element={<Messenger/>}/>
                     <Route path={'/connect'} element={<Register/>}/>
                     <Route path={'/linkin'} element={<Login/>}/>
+                    <Route path={'/search'} element={<Search/>}/>
                 </Routes>
             </main>
         </>
