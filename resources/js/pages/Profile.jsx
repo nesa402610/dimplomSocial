@@ -91,7 +91,7 @@ const Profile = () => {
                             {!isChanging ?
                                 <div className={'hover:bg-slate-600 px-2 py-1 '}
                                      onClick={e => statusHandler(e)}
-                                >{user.status ? user.status : 'Set status'}</div>
+                                >{user.status ? user.status : ' '}</div>
                                 :
                                 <div>
                                     <input className={'bg-slate-700 px-2 py-1 rounded-md'}
