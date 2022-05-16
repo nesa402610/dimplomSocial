@@ -87,8 +87,8 @@ const Messenger = () => {
 
     return (
         <div className={'text-slate-200 px-4 mt-4'}>
-            <div className={'flex gap-2'}>
-                <div className={'flex flex-col w-1/3 bg-slate-700 rounded-md'}>
+            <div className={'flex gap-2 relative'}>
+                <div className={'flex flex-1 flex-col bg-slate-700 rounded-md whitespace-nowrap'}>
                     <div className={'flex'}>
                         <input className={'w-full rounded-md px-2 mb-2 h-fit py-1'}
                                type="text"
@@ -117,7 +117,7 @@ const Messenger = () => {
                                                 </div>
                                             </div>
                                             <div className="dialogue-msg-preview">
-                                                You: gay
+
                                             </div>
                                         </div>
                                     </div>
@@ -126,37 +126,41 @@ const Messenger = () => {
                         }
                     </div>
                 </div>
-                <div className={'flex flex-grow flex-col bg-slate-700 rounded-md p-2 h-screen'}>
+                <div className={'sm:flex flex-grow flex-col bg-slate-700 rounded-md p-2 h-screen sm:relative xs:absolute xs:w-full ' + (activeDialogue === 0 ? 'xs:hidden' : 'xs:flex')}>
+                    <div className={'xs:flex sm:hidden justify-end border-b-2 border-black py-2'}>
+                        <div className={'rounded-md py-1 px-2  border-2 border-slate-800'}
+                        onClick={e => setActiveDialogue(0)}
+                        >Закрыть</div>
+                    </div>
                     <div className={'flex flex-1 flex-col gap-2 overflow-auto'}>
-                        {
-                            (msgs.length > 0) ?
-                                msgs.map((msg) =>
-                                    <div className="msg-view flex gap-4" key={msg.id}>
-                                        <div className="msg-avatar">
-                                            <div className="msg-avatar__avatar h-10 w-10 rounded-full bg-center bg-contain"
-                                                 style={{backgroundImage: 'url(' + msg.user.photo + ')'}}>
-                                            </div>
-                                        </div>
-                                        <div className="msg-info">
-                                            <div className="flex gap-2 items-baseline">
-                                                <div className="font-bold">
-                                                    <span>{msg.user.name}</span>
-                                                </div>
-                                                <div className="font-thin text-sm text-slate-200">
-                                                    <span>{moment(msg.created_at).format("HH:mm")}</span>
-                                                </div>
-                                            </div>
-                                            <div className="msg-message">
-                                                <span>{msg.message_text}</span>
-                                            </div>
+                        {(msgs.length > 0) ?
+                            msgs.map((msg) =>
+                                <div className="msg-view flex gap-4" key={msg.id}>
+                                    <div className="msg-avatar">
+                                        <div className="msg-avatar__avatar h-10 w-10 rounded-full bg-center bg-contain"
+                                             style={{backgroundImage: 'url(' + msg.user.photo + ')'}}>
                                         </div>
                                     </div>
-                                )
-                                : <span>Нет сообщений</span>
+                                    <div className="msg-info">
+                                        <div className="flex gap-2 items-baseline">
+                                            <div className="font-bold">
+                                                <span>{msg.user.name}</span>
+                                            </div>
+                                            <div className="font-thin text-sm text-slate-200">
+                                                <span>{moment(msg.created_at).format("HH:mm")}</span>
+                                            </div>
+                                        </div>
+                                        <div className="msg-message">
+                                            <span>{msg.message_text}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                            : <span>Нет сообщений</span>
                         }
                     </div>
                     {activeDialogue ?
-                        <div className={'flex items-end'}>
+                        <div className={'flex items-end gap-2'}>
                             <div className={'w-full'}>
                                 <input type="text"
                                        className={'w-full'}
@@ -167,8 +171,8 @@ const Messenger = () => {
                                        onChange={event => setMessage(event.target.value)}
                                 />
                             </div>
-                            <div className="send-btn">
-                                <button onClick={sendMessage}>Send</button>
+                            <div className="flex py-2 sm:text-sm px-3 border-2 border-slate-800 rounded-md">
+                                <button onClick={sendMessage}>Отправить</button>
                             </div>
                         </div> : ''}
                 </div>
