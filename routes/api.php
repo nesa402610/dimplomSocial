@@ -31,6 +31,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('status', [UserController::class, 'updateStatus']);
         Route::post('photo', [UserController::class, 'updatePhoto']);
     });
+    Route::prefix('systems')->group(function (){
+        Route::get('useall', [UserController::class, 'getUsers']);
+
+    });
 });
 
 Route::post('/creac', [authController::class, 'createAccount']);
