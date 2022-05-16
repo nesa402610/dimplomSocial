@@ -17,6 +17,14 @@ class UserController extends Controller
         return response(['user' => $user, 'friends' => $friends, 'me' => $authUser]);
 //            return [$request->ID, Auth::user()->id];
     }
+    public function getUsers()
+    {
+        $user = User::all();
+//        $friends = friend::where('user_id', $request->ID)->get();
+//        $authUser = Auth::user();
+        return response($user);
+//            return [$request->ID, Auth::user()->id];
+    }
 
     public function updateStatus(Request $request)
     {
