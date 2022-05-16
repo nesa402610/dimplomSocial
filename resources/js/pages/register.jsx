@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import {Helmet} from "react-helmet";
+import {useSelector} from "react-redux";
 
 const Register = () => {
+    const authUser = useSelector(state => state.auth.user);
     const navigate = useNavigate();
     const [regData, setRegData] = useState({
         name: '',
@@ -29,6 +31,11 @@ const Register = () => {
         });
         console.log(regData, 'log');
     };
+    useEffect(() => {
+        if (authUser.id) {
+            navigate('/id' + authUser.id);
+        }
+    },[authUser]);
     return (
         <div className={'px-4 py-2'}>
             <Helmet>

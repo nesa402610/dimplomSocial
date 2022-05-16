@@ -1,32 +1,38 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {loginAction} from "../store/authReducer";
 import {Helmet} from "react-helmet";
 
 const Login = () => {
+    const authUser = useSelector(state => state.auth.user);
+    const navigate = useNavigate();
     const [data, setData] = useState({
         email: '',
         password: ''
     });
-    const navigate = useNavigate()
     const dispatch = useDispatch();
     const login = (e) => {
         e.preventDefault();
         axios.post('/auth', data).then(r => {
             dispatch(loginAction({authed: true, user: r.data.user}));
-            localStorage.setItem('isAuth', 'true')
-            navigate('/id' + r.data.user.id)
+            localStorage.setItem('isAuth', 'true');
+            navigate('/id' + r.data.user.id);
         }).catch(err => {
             console.log(err);
         });
     };
+    useEffect(() => {
+        if (authUser.id) {
+            navigate('/id' + authUser.id);
+        }
+    },[authUser]);
     return (
         <div className={'px-4 py-2'}>
-        <Helmet>
-            <title>Вход в аккаунт</title>
-        </Helmet>
+            <Helmet>
+                <title>Вход в аккаунт</title>
+            </Helmet>
             <h2 className={'text-slate-100 text-3xl text-center font-bold mb-8'}>Вход в аккаунт</h2>
             <form onSubmit={e => login(e)} className={'flex-col flex gap-3'}>
                 <label>
