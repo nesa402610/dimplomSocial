@@ -87,14 +87,14 @@ const Messenger = () => {
 
     return (
         <div className={'text-slate-200 px-4 mt-4'}>
-            <div className={'flex gap-2 relative'}>
+            <div className={'flex gap-2 relative h-96 min-h'} style={{minHeight: '84vh'}}>
                 <div className={'flex flex-1 flex-col bg-slate-700 rounded-md whitespace-nowrap'}>
                     <div className={'flex'}>
-                        <input className={'w-full rounded-md px-2 mb-2 h-fit py-1'}
+                        <input className={'w-full rounded-md px-2 h-fit py-1'}
                                type="text"
                                placeholder={'Поиск диалога'}/>
                     </div>
-                    <div className={'flex flex-col'}>
+                    <div className={'flex flex-col overflow-auto'}>
                         {
                             (dialogues) ?
                                 dialogues.map((dialogue) =>
@@ -103,7 +103,7 @@ const Messenger = () => {
                                          key={dialogue.id}
                                          onClick={e => selectDialogue(e)}
                                     >
-                                        <div className="dialogue-image h-10 w-10 rounded-full bg-center bg-contain"
+                                        <div className="dialogue-image h-14 w-14 rounded-full bg-center bg-contain"
                                              style={{backgroundImage: 'url(' + dialogue.acceptor.photo + ')'}}>
                                         </div>
                                         <div className="dialogue-info">
@@ -126,7 +126,7 @@ const Messenger = () => {
                         }
                     </div>
                 </div>
-                <div className={'sm:flex flex-grow flex-col bg-slate-700 rounded-md p-2 h-screen sm:relative xs:absolute xs:w-full ' + (activeDialogue === 0 ? 'xs:hidden' : 'xs:flex')}>
+                <div className={'sm:flex flex-grow flex-col bg-slate-700 rounded-md p-2 sm:relative xs:absolute xs:w-full ' + (activeDialogue === 0 ? 'xs:hidden' : 'xs:flex')}>
                     <div className={'xs:flex sm:hidden justify-end border-b-2 border-black py-2'}>
                         <div className={'rounded-md py-1 px-2  border-2 border-slate-800'}
                         onClick={e => setActiveDialogue(0)}
