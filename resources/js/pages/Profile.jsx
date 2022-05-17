@@ -73,15 +73,18 @@ const Profile = () => {
                     {`Профиль пользователя ${user?.name} ${user?.lastname}`}
                 </title>
             </Helmet>
-            <div className={'flex gap-4 '}>
-                <div className={'rounded-full w-20 h-20 overflow-hidden'}
+            <div className={'flex gap-4'}>
+                <div className={'lg:w-52 lg:h-auto lg:rounded-md ' +
+                    'xs:rounded-full xs:w-20 xs:h-20 overflow-hidden'}
                 >
                     <label>
-                    <img className={'rounded-full'} src={user.photo ? user.photo : img} alt=""/>
-                        <input type="file" hidden onChange={updatePhoto}/>
+                    <img src={user.photo ? user.photo : img} alt=""/>
+
+                        { authUser.id == userID.id ?
+                            <input type="file" className={'hidden'} onChange={updatePhoto}/> : ''}
                     </label>
                 </div>
-                <div className={'text-slate-200 flex items-center'}>
+                <div className={'text-slate-200 flex lg:items-start xs:items-center'}>
                     <div className={'flex flex-col'}>
                         <div>
                             <span>{user?.name}&nbsp;</span>
