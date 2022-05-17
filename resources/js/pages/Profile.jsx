@@ -87,14 +87,14 @@ const Profile = () => {
                 <div className={'text-slate-200 flex lg:items-start xs:items-center'}>
                     <div className={'flex flex-col'}>
                         <div>
-                            <span>{user?.name}&nbsp;</span>
-                            <span>{user?.lastname}</span>
+                            <span>{user.name}&nbsp;</span>
+                            <span>{user.lastname}</span>
                         </div>
                         <div className={'flex'}>
                             {!isChanging ?
-                                <div className={'hover:bg-slate-600 px-2 py-1 '}
+                                <div className={(authUser.id == userID.id ? 'hover:bg-slate-600 ' : '') + 'px-2 py-1 '}
                                      onClick={e => statusHandler(e)}
-                                >{user.status ? user.status : ' '}</div>
+                                >{user.status ? user.status : <span className={'italic text-slate-400'}>Установить статус</span>}</div>
                                 :
                                 <div>
                                     <input className={'bg-slate-700 px-2 py-1 rounded-md'}
@@ -126,7 +126,7 @@ const Profile = () => {
             </div>
             <div className={'flex flex-col text-slate-400'}>
                 <div>
-                    {user?.birthday ? `День рождения: ` + user?.birthday : ''}
+                    {user.birthday ? `День рождения: ` + user.birthday : ''}
                 </div>
                 <div>
                     Посмотреть всю информацию
