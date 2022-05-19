@@ -8,6 +8,7 @@ import GenderUpdate from "../components/profileEdit/genderUpdate";
 import PhoneUpdate from "../components/profileEdit/phoneUpdate";
 import BirthdayUpdate from "../components/profileEdit/birthdayUpdate";
 import PasswordUpdate from "../components/profileEdit/passwordUpdate";
+import {Helmet} from "react-helmet";
 
 const ProfileEdit = () => {
     const user = useSelector(state => state.auth.user);
@@ -26,6 +27,9 @@ const ProfileEdit = () => {
 
     return (
         <div className={'p-4'}>
+            <Helmet>
+                <title>Редактирование профиля</title>
+            </Helmet>
             <div className={'flex flex-col gap-4 bg-slate-600 text-slate-300 p-4 rounded-md'}>
                 <div>
                     <NameUpdate user={user} handler={updateHandler}/>

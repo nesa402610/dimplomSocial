@@ -3,6 +3,7 @@ import axios from "axios";
 import moment from "moment";
 import {useDispatch} from "react-redux";
 import {useLocation} from "react-router-dom";
+import {Helmet} from "react-helmet";
 
 const Messenger = () => {
     const [msgs, setMsgs] = useState([]);
@@ -87,6 +88,9 @@ const Messenger = () => {
 
     return (
         <div className={'text-slate-200 px-4 mt-4'}>
+            <Helmet>
+                <title>Сообщения</title>
+            </Helmet>
             <div className={'flex gap-2 relative h-96 min-h'} style={{minHeight: '84vh'}}>
                 <div className={'flex flex-1 flex-col bg-slate-700 rounded-md whitespace-nowrap'}>
                     <div className={'flex'}>

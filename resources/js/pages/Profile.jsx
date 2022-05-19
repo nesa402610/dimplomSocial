@@ -84,9 +84,8 @@ const Profile = () => {
         axios.post('action/deletePost', {id: postId}).then(r => {
             const newPosts = posts.filter((post) => post.id !== postId);
             setPosts(newPosts);
+            setPostMessage('');
         });
-
-
     };
     return (
         <div className={'px-4 py-2 mt-2 flex flex-col gap-4'}>
@@ -167,14 +166,16 @@ const Profile = () => {
                            className={'w-5/6'}
                            type="text"
                            placeholder={'О чем хочешь рассказать?'}/>
-                    <button className={'hover:bg-slate-600 w-1/6 font-bold'}
+                    <button className={'hover:bg-slate-600 flex-grow w-auto font-bold'}
                             onClick={e => createPost(e)}>Рассказать
                     </button>
                 </div>
                 {posts.map(post =>
                     <div key={post.id} className={'relative flex flex-col gap-2 bg-slate-700 px-4 py-2 rounded-md'}>
                         <div className={'right-0 mr-4 absolute flex justify-end'}>
-                            <button className={'w-auto bg-red-900 hover:bg-red-800 border-red-800'} onClick={e => deletePost(e, post.id)}>Удалить</button>
+                            <button className={'w-auto bg-red-900 hover:bg-red-800 border-red-800'}
+                                    onClick={e => deletePost(e, post.id)}>Удалить
+                            </button>
                         </div>
                         <div className={'flex gap-4 items-center'}>
                             <div className={'h-16 w-16 overflow-hidden rounded-full'}>

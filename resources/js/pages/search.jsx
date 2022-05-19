@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {NavLink} from "react-router-dom";
+import {Helmet} from "react-helmet";
 
 const Search = () => {
     const [users, setUsers] = useState([]);
@@ -15,6 +16,9 @@ const Search = () => {
     const filtered = users.filter(user => user.name.toLowerCase().includes(searchValue.toLowerCase()));
     return (
         <div className={'flex flex-col px-4 text-slate-300 mt-4 gap-4'}>
+            <Helmet>
+                <title>Поиск пользователей</title>
+            </Helmet>
             <div>
                 <input type="text" value={searchValue}
                        placeholder={'Кого-то ищешь?'}

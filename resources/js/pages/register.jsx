@@ -41,7 +41,7 @@ const Register = () => {
             <Helmet>
                 <title>Создание аккаунта</title>
             </Helmet>
-            <h2 className={'text-slate-100 text-3xl text-center font-bold mb-8'}>Вход в аккаунт</h2>
+            <h2 className={'text-slate-100 text-3xl text-center font-bold mb-8'}>Создание аккаунта</h2>
             <form onSubmit={e => createAcc(e)} className={'flex-col flex gap-3'}>
                 <label>
                     <span className="block text-sm font-medium text-slate-300">Имя </span>
