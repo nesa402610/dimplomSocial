@@ -98,7 +98,7 @@ const Messenger = () => {
                         {
                             (dialogues) ?
                                 dialogues.map((dialogue) =>
-                                    <div className={'flex flex-1 gap-4 p-2 hover:bg-slate-600'}
+                                    <div className={(activeDialogue == dialogue.dialogue_acceptor_id ? 'bg-slate-600' : '') + ' flex flex-1 gap-4 p-2 hover:bg-slate-600'}
                                          data-peer={dialogue.dialogue_acceptor_id}
                                          key={dialogue.id}
                                          onClick={e => selectDialogue(e)}
