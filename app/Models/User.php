@@ -10,8 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\messages;
 
-class User extends Authenticatable
-{
+class User extends Authenticatable {
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -50,9 +49,11 @@ class User extends Authenticatable
         'phone_verified_at' => 'datetime',
     ];
 
-    public function messages()
-    {
+    public function messages() {
         return $this->hasMany(messages::class);
     }
 
+    public function posts() {
+        return $this->hasMany(post::class);
+    }
 }

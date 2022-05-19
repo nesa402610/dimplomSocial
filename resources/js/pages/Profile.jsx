@@ -4,8 +4,11 @@ import {useSelector} from "react-redux";
 import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
 import {Helmet} from "react-helmet";
+import moment from "moment";
 
 const Profile = () => {
+    const [postMessage, setPostMessage] = useState('');
+    const [posts, setPosts] = useState([]);
     const [user, setUser] = useState({});
     const authUser = useSelector(state => state.auth.user);
     const [isChanging, setChange] = useState(false);
@@ -17,9 +20,10 @@ const Profile = () => {
         if (authUser.id == userID.id) {
             setUser(authUser);
         } else {
-            axios.post(`/id${userID.id}`)
+            axios.get(`/id${userID.id}`)
                 .then(r => {
                     setUser(r.data.user);
+                    setPosts(r.data.posts);
                     if (!r.data.user) {
                         navigate('/id' + authUser?.id);
                         // location.pathname = '/id' + authUser?.id
@@ -64,6 +68,25 @@ const Profile = () => {
         e.preventDefault();
         axios.post('/action/startDialogue', {userID: userID.id});
         navigate('/messenger', {state: userID.id});
+    };
+
+    const createPost = (e) => {
+        e.preventDefault();
+        axios.post('action/createPost', {postMessage}).then(r => {
+            setPosts([...posts, r.data]);
+        }).catch(err => {
+            alert(err);
+        });
+
+    };
+    const deletePost = (e, postId) => {
+        e.preventDefault();
+        axios.post('action/deletePost', {id: postId}).then(r => {
+            const newPosts = posts.filter((post) => post.id !== postId);
+            setPosts(newPosts);
+        });
+
+
     };
     return (
         <div className={'px-4 py-2 mt-2 flex flex-col gap-4'}>
@@ -135,6 +158,42 @@ const Profile = () => {
                 <div>
                     Посмотреть всю информацию
                 </div>
+            </div>
+            <div className={'text-slate-300 flex flex-col gap-4'}>
+                <h2 className={'text-2xl mb-2'}>Посты пользователя</h2>
+                <div className={'flex gap-4'}>
+                    <input onChange={e => setPostMessage(e.target.value)}
+                           value={postMessage}
+                           className={'w-5/6'}
+                           type="text"
+                           placeholder={'О чем хочешь рассказать?'}/>
+                    <button className={'hover:bg-slate-600 w-1/6 font-bold'}
+                            onClick={e => createPost(e)}>Рассказать
+                    </button>
+                </div>
+                {posts.map(post =>
+                    <div key={post.id} className={'relative flex flex-col gap-2 bg-slate-700 px-4 py-2 rounded-md'}>
+                        <div className={'right-0 mr-4 absolute flex justify-end'}>
+                            <button className={'w-auto bg-red-900 hover:bg-red-800 border-red-800'} onClick={e => deletePost(e, post.id)}>Удалить</button>
+                        </div>
+                        <div className={'flex gap-4 items-center'}>
+                            <div className={'h-16 w-16 overflow-hidden rounded-full'}>
+                                <img src={user.photo} alt=""/>
+                            </div>
+                            <div className={'flex flex-col '}>
+                                <div>
+                                    {user.name} {user.lastname}
+                                </div>
+                                <div className={'text-sm text-slate-400'}>
+                                    {moment(post.created_at).format('DD MMM YYYY HH:mm')}
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            {post.post_message}
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
