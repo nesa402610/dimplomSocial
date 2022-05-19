@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\friend;
-use App\Models\post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,19 +11,15 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller {
     public function getUser(Request $request) {
         $user = User::find($request->ID);
-        $posts = $user->posts;
         $friends = friend::where('user_id', $request->ID)->get();
         $authUser = Auth::user();
+        $posts = $user->posts;
         return response(['user' => $user, 'friends' => $friends, 'me' => $authUser, 'posts'=>$posts]);
-//            return [$request->ID, Auth::user()->id];
     }
 
     public function getUsers() {
         $user = User::all();
-//        $friends = friend::where('user_id', $request->ID)->get();
-//        $authUser = Auth::user();
         return response($user);
-//            return [$request->ID, Auth::user()->id];
     }
 
     public function updateStatus(Request $request) {
