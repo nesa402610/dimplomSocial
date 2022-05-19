@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\authController;
 use App\Http\Controllers\messageController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/id{ID}', [UserController::class, 'getUser']);
+    Route::get('/id{ID}', [UserController::class, 'getUser']);
     Route::post('/dialogues', [messageController::class, 'getDialogues']);
     Route::post('/messages', [messageController::class, 'getMessages']);
     Route::post('/sendMessages', [messageController::class, 'sendMessage']);
@@ -26,6 +27,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('action')->group(function () {
         Route::post('startDialogue', [MessageController::class, 'startDialogue']);
         Route::post('addToFriends', [UserController::class, 'addToFriends']);
+        Route::post('createPost', [PostController::class, 'createPost']);
+        Route::post('deletePost', [PostController::class, 'deletePost']);
     });
     Route::prefix('profile/update')->group(function () {
         Route::post('status', [UserController::class, 'updateStatus']);
@@ -34,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::prefix('systems')->group(function (){
         Route::get('useall', [UserController::class, 'getUsers']);
+        Route::get('getPosts', [UserController::class, 'getUsers']);
 
     });
 });
