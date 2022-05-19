@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('phone')->unique();
             $table->timestamp('phone_verified_at')->nullable();
-            $table->timestamp('birthday')->nullable();
+            $table->date('birthday')->nullable();
             $table->string('status')->nullable();
             $table->rememberToken();
             $table->smallInteger('gender')->default(0);
