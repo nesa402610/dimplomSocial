@@ -32,10 +32,14 @@ const Search = () => {
                             <div>
                                 {user.name} {user.lastname}
                             </div>
+                            <div>
+                                {user.gender === 0 ? 'Пол: не указан' :
+                                    ("Пол: " + (user.gender === 1 ? 'мужской' : 'женский'))
+                                }
+                            </div>
                         </div>
                     </NavLink>
-
-                    )}
+                )}
             </div>
         </div>
     );
