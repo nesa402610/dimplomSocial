@@ -11,40 +11,16 @@ import PasswordUpdate from "../components/profileEdit/passwordUpdate";
 
 const ProfileEdit = () => {
     const user = useSelector(state => state.auth.user);
-    const [updateResult, setUpdateResult] = useState({
-        birthday: 0,
-        gender: 0
-    });
-    const [errors, setErrors] = useState({
-        birthday: 0,
-        gender: 0
-    });
+    const [updateResult, setUpdateResult] = useState({});
+    const [errors, setErrors] = useState({});
 
-    const updateGender = (e) => {
-        axios.post('profile/update/gender', {gender: e.target.value}).then(() => {
-            setUpdateResult({gender: 1});
-            setTimeout(() => setUpdateResult({gender: 0}), 4000);
-        }).catch(err => {
-            setErrors({gender: 1});
-            setTimeout(() => setErrors({gender: 0}), 4000);
-        });
-    };
-    const updateBirthday = (e) => {
-        axios.post('profile/update/birthday', {birthday: e.target.value}).then(() => {
-            setUpdateResult({birthday: 1});
-            setTimeout(() => setUpdateResult({birthday: 0}), 4000);
-        }).catch(err => {
-            setErrors({birthday: 1});
-            setTimeout(() => setUpdateResult({birthday: 0}), 4000);
-        });
-    };
     const updateHandler = (data) => {
         axios.post('profile/update/basicInfo', data).then(() => {
             setUpdateResult(data);
             setTimeout(() => setUpdateResult(0), 4000);
         }).catch(err => {
             setErrors(data);
-            setTimeout(() => setUpdateResult(0), 4000);
+            setTimeout(() => setErrors(0), 4000);
         });
     };
 
