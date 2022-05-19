@@ -74,6 +74,7 @@ const Profile = () => {
         e.preventDefault();
         axios.post('action/createPost', {postMessage}).then(r => {
             setPosts([...posts, r.data]);
+            setPostMessage('');
         }).catch(err => {
             alert(err);
         });
@@ -84,7 +85,6 @@ const Profile = () => {
         axios.post('action/deletePost', {id: postId}).then(r => {
             const newPosts = posts.filter((post) => post.id !== postId);
             setPosts(newPosts);
-            setPostMessage('');
         });
     };
     return (
