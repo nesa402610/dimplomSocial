@@ -171,7 +171,7 @@ const Messenger = () => {
                                        onChange={event => setMessage(event.target.value)}
                                 />
                             </div>
-                            <div className="flex py-2 sm:text-sm px-3 border-2 border-slate-800 rounded-md">
+                            <div>
                                 <button onClick={sendMessage}>Отправить</button>
                             </div>
                         </div> : ''}
