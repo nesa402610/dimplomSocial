@@ -14,8 +14,8 @@ const Header = () => {
             <nav className={'bg-gray-700'}>
                 <div className={'xs:px-4 md:px-6 lg:px-8 flex flex-1 items-center justify-between h-12'}>
                     {isAuth ? (<div className={'flex text-slate-200'}>
-                        <div className={'hidden sm:flex'}>
-                            <Link to={'/id' + user.id}>Главная</Link>
+                        <div className={'hidden sm:flex items-center'}>
+                            <div className={'px-3 py-1.5'}>Cringe</div>
                             <Link to={'/friends'}>Друзья</Link>
                             <Link to={'/messenger'}>Сообщения</Link>
                             <Link to={'/search'}>Поиск</Link>
@@ -25,7 +25,8 @@ const Header = () => {
                         (<div>
                             <div onClick={dropDown}
                                  className={'relative text-slate-200'}>
-                                Profile
+                                <Link to={'/profile-edit'}>Настройки</Link>
+                                <Link to={'/id' + user.id}>Профиль</Link>
                             </div>
                         </div>)
                         :
@@ -36,10 +37,11 @@ const Header = () => {
                 </div>
                 {isDropDown ?
                     (<div className={'sm:hidden text-slate-200 flex flex-col bg-gray-700 border-t-black border-t-2'}>
-                        <Link to={'/id' + user.id}>Главная</Link>
+                        Cringe
                         <Link to={'/friends'}>Друзья</Link>
                         <Link to={'/messenger'}>Сообщения</Link>
                         <Link to={'/search'}>Поиск</Link>
+                        <Link to={'/profile-edit'}>Настройки</Link>
                         <Link to={'/logout'}>Выйти</Link>
                     </div>)
                     : ''
