@@ -160,23 +160,25 @@ const Profile = () => {
             </div>
             <div className={'text-slate-300 flex flex-col gap-4'}>
                 <h2 className={'text-2xl mb-2'}>Посты пользователя</h2>
-                <div className={'flex gap-4'}>
-                    <input onChange={e => setPostMessage(e.target.value)}
-                           value={postMessage}
-                           className={'w-5/6'}
-                           type="text"
-                           placeholder={'О чем хочешь рассказать?'}/>
-                    <button className={'hover:bg-slate-600 flex-grow w-auto font-bold'}
-                            onClick={e => createPost(e)}>Рассказать
-                    </button>
-                </div>
+                {authUser.id === user.id
+                    ?
+                    <div className={'flex gap-4'}>
+                        <input onChange={e => setPostMessage(e.target.value)}
+                               value={postMessage}
+                               className={'w-5/6'}
+                               type="text"
+                               placeholder={'О чем хочешь рассказать?'}/>
+                        <button className={'hover:bg-slate-600 flex-grow w-auto font-bold'}
+                                onClick={e => createPost(e)}>Рассказать
+                        </button>
+                    </div> : ''}
                 {posts.map(post =>
                     <div key={post.id} className={'relative flex flex-col gap-2 bg-slate-700 px-4 py-2 rounded-md'}>
-                        <div className={'right-0 mr-4 absolute flex justify-end'}>
+                        {authUser.id === user.id ? <div className={'right-0 mr-4 absolute flex justify-end'}>
                             <button className={'w-auto bg-red-900 hover:bg-red-800 border-red-800'}
                                     onClick={e => deletePost(e, post.id)}>Удалить
                             </button>
-                        </div>
+                        </div> : ''}
                         <div className={'flex gap-4 items-center'}>
                             <div className={'h-16 w-16 overflow-hidden rounded-full'}>
                                 <img src={user.photo} alt=""/>

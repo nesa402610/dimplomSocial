@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,10 +21,14 @@ class PostController extends Controller
     }
 
     public function deletePost(Request $request) {
-        $post = Post::find($request->id);
-        $post->delete();
 
-        return response('Пост успешно удален');
+        $user = Auth::user();
+        $post = $user->posts()->find($request->id);
+        if ($post) {
+            $post->delete();
+        }
+
+        return response('ok');
 
     }
 }
