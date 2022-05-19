@@ -30,6 +30,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('profile/update')->group(function () {
         Route::post('status', [UserController::class, 'updateStatus']);
         Route::post('photo', [UserController::class, 'updatePhoto']);
+        Route::post('basicInfo', [UserController::class, 'basicInfo']);
     });
     Route::prefix('systems')->group(function (){
         Route::get('useall', [UserController::class, 'getUsers']);

@@ -11,6 +11,7 @@ import {getUserAction, loginAction} from "./store/authReducer";
 import Messenger from "./pages/messenger";
 import Home from "./pages/home";
 import Search from "./pages/search";
+import ProfileEdit from "./pages/profile_edit";
 
 const Index = () => {
     const dispatch = useDispatch();
@@ -40,6 +41,7 @@ const Index = () => {
                     <Route path={'/connect'} element={<Register/>}/>
                     <Route path={'/linkin'} element={<Login/>}/>
                     <Route path={'/search'} element={<Search/>}/>
+                    <Route path={'/profile-edit'} element={<ProfileEdit/>}/>
                 </Routes>
             </main>
         </>
