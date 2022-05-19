@@ -12,7 +12,6 @@ const Profile = () => {
     const [status, setStatus] = useState(user.status);
     const navigate = useNavigate();
 
-
     let userID = useParams();
     useEffect(() => {
         if (authUser.id == userID.id) {
@@ -78,9 +77,8 @@ const Profile = () => {
                     'xs:rounded-full xs:w-20 xs:h-20 overflow-hidden'}
                 >
                     <label>
-                    <img src={user.photo ? user.photo : img} alt=""/>
-
-                        { authUser.id == userID.id ?
+                        <img src={user.photo ? user.photo : img} alt=""/>
+                        {authUser.id == userID.id ?
                             <input type="file" className={'hidden'} onChange={updatePhoto}/> : ''}
                     </label>
                 </div>
@@ -94,7 +92,8 @@ const Profile = () => {
                             {!isChanging ?
                                 <div className={(authUser.id == userID.id ? 'hover:bg-slate-600 ' : '') + 'px-2 py-1 '}
                                      onClick={e => statusHandler(e)}
-                                >{user.status ? user.status : <span className={'italic text-slate-400'}>Установить статус</span>}</div>
+                                >{user.status ? user.status :
+                                    <span className={'italic text-slate-400'}>Установить статус</span>}</div>
                                 :
                                 <div>
                                     <input className={'bg-slate-700 px-2 py-1 rounded-md'}
@@ -127,6 +126,11 @@ const Profile = () => {
             <div className={'flex flex-col text-slate-400'}>
                 <div>
                     {user.birthday ? `День рождения: ` + user.birthday : ''}
+                </div>
+                <div>
+                    {user.gender === 0 ? '' : (
+                        "Пол: " + (user.gender === 1 ? 'мужской' : 'женский')
+                    )}
                 </div>
                 <div>
                     Посмотреть всю информацию
