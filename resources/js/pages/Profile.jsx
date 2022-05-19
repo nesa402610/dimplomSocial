@@ -23,7 +23,7 @@ const Profile = () => {
             axios.get(`/id${userID.id}`)
                 .then(r => {
                     setUser(r.data.user);
-                    setPosts(r.data.posts);
+                    setPosts(r.data.posts.reverse());
                     if (!r.data.user) {
                         navigate('/id' + authUser?.id);
                         // location.pathname = '/id' + authUser?.id
@@ -73,12 +73,11 @@ const Profile = () => {
     const createPost = (e) => {
         e.preventDefault();
         axios.post('action/createPost', {postMessage}).then(r => {
-            setPosts([...posts, r.data]);
+            setPosts([r.data, ...posts]);
             setPostMessage('');
         }).catch(err => {
             alert(err);
         });
-
     };
     const deletePost = (e, postId) => {
         e.preventDefault();
