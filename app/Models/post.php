@@ -13,4 +13,9 @@ class post extends Model {
     public function user() {
         return $this->belongsTo(User::class);
     }
+
+    public function user_acceptor() {
+        return $this->belongsTo(User::class);
+
+    }
 }

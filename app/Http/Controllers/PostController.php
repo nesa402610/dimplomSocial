@@ -12,8 +12,12 @@ class PostController extends Controller
 
         $post = new Post();
         $post->user_id = Auth::user()->id;
+        $post->user_acceptor_id = $request->userID;
         $post->post_message = $request->postMessage;
         $post->save();
+
+        $post->user;
+        $post->user_acceptor;
 
         return response($post);
 

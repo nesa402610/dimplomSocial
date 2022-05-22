@@ -72,7 +72,7 @@ const Profile = () => {
 
     const createPost = (e) => {
         e.preventDefault();
-        axios.post('action/createPost', {postMessage}).then(r => {
+        axios.post('action/createPost', {postMessage, userID: userID.id}).then(r => {
             setPosts([r.data, ...posts]);
             setPostMessage('');
         }).catch(err => {
@@ -159,8 +159,6 @@ const Profile = () => {
             </div>
             <div className={'text-slate-300 flex flex-col gap-4'}>
                 <h2 className={'text-2xl mb-2'}>Посты пользователя</h2>
-                {authUser.id === user.id
-                    ?
                     <div className={'flex gap-4'}>
                         <input onChange={e => setPostMessage(e.target.value)}
                                value={postMessage}
@@ -170,7 +168,7 @@ const Profile = () => {
                         <button className={'hover:bg-slate-600 flex-grow w-auto font-bold'}
                                 onClick={e => createPost(e)}>Рассказать
                         </button>
-                    </div> : ''}
+                    </div>
                 {posts.map(post =>
                     <div key={post.id} className={'relative flex flex-col gap-2 bg-slate-700 px-4 py-2 rounded-md'}>
                         {authUser.id === user.id ? <div className={'right-0 mr-4 absolute flex justify-end'}>
@@ -180,11 +178,11 @@ const Profile = () => {
                         </div> : ''}
                         <div className={'flex gap-4 items-center'}>
                             <div className={'h-16 w-16 overflow-hidden rounded-full'}>
-                                <img src={user.photo} alt=""/>
+                                <img src={post.user.photo} alt=""/>
                             </div>
                             <div className={'flex flex-col '}>
                                 <div>
-                                    {user.name} {user.lastname}
+                                    {post.user.name} {post.user.lastname}
                                 </div>
                                 <div className={'text-sm text-slate-400'}>
                                     {moment(post.created_at).format('DD MMM YYYY HH:mm')}

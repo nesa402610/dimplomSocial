@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\friend;
+use App\Models\post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +14,13 @@ class UserController extends Controller {
         $user = User::find($request->ID);
         $friends = friend::where('user_id', $request->ID)->get();
         $authUser = Auth::user();
-        $posts = $user->posts;
+        $posts = Post::where('user_acceptor_id', $request->ID)->get();
+
+    foreach ($posts as $post) {
+       $post->user;
+       $post->user_acceptor;
+    }
+//        $posts = $posts->w
         return response(['user' => $user, 'friends' => $friends, 'me' => $authUser, 'posts'=>$posts]);
     }
 
