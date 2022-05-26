@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import img from '../components/placeholder/profile.png';
 import {useSelector} from "react-redux";
 import axios from "axios";
-import {useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {Helmet} from "react-helmet";
 import moment from "moment";
 
@@ -177,9 +177,9 @@ const Profile = () => {
                             </button>
                         </div> : ''}
                         <div className={'flex gap-4 items-center'}>
-                            <div className={'h-16 w-16 overflow-hidden rounded-full'}>
+                            <Link to={'/id'+post.user.id} className={'h-16 w-16 overflow-hidden rounded-full'}>
                                 <img src={post.user.photo} alt=""/>
-                            </div>
+                            </Link>
                             <div className={'flex flex-col '}>
                                 <div>
                                     {post.user.name} {post.user.lastname}
